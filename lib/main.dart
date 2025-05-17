@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:testprogect/core/localization/app_localizations.dart';
 import 'package:testprogect/core/providers/locale_provider.dart';
+import 'package:testprogect/features/jobs/data/services/jobs_service.dart';
+import 'package:testprogect/features/jobs/presentation/providers/jobs_provider.dart';
 import 'package:testprogect/features/main/presentation/pages/main_page.dart';
 
 void main() async {
@@ -20,8 +22,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => LocaleProvider(prefs),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => LocaleProvider(prefs)),
+        Provider(create: (_) => JobsService()),
+        ChangeNotifierProxyProvider<JobsService, JobsProvider>(
+          create: (context) => JobsProvider(context.read<JobsService>()),
+          update: (context, jobsService, previous) => 
+            previous ?? JobsProvider(jobsService),
+        ),
+      ],
       child: Consumer<LocaleProvider>(
         builder: (context, localeProvider, child) {
           return MaterialApp(
@@ -49,31 +59,43 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class LanguagePage extends StatelessWidget {
+  const LanguagePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context);
-    
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(localizations.translate('app_name')),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.language),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const LanguagePage()),
-              );
-            },
-          ),
-        ],
+        title: const Text('Language Settings'),
       ),
-      body: Center(
-        child: Text(localizations.translate('welcome_message')),
+      body: Consumer<LocaleProvider>(
+        builder: (context, localeProvider, child) {
+          return ListView(
+            children: [
+              ListTile(
+                title: const Text('English'),
+                trailing: localeProvider.locale.languageCode == 'en'
+                    ? const Icon(Icons.check)
+                    : null,
+                onTap: () {
+                  localeProvider.setLocale(const Locale('en'));
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('العربية'),
+                trailing: localeProvider.locale.languageCode == 'ar'
+                    ? const Icon(Icons.check)
+                    : null,
+                onTap: () {
+                  localeProvider.setLocale(const Locale('ar'));
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        },
       ),
     );
   }

@@ -1,4 +1,4 @@
-import 'package:file_picker/file_picker.dart';
+import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:testprogect/core/theme/app_theme.dart';
 
@@ -13,7 +13,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
   final _formKey = GlobalKey<FormState>();
   final _subjectController = TextEditingController();
   final _messageController = TextEditingController();
-  String? _selectedFile;
+  XFile? _selectedFile;
 
   @override
   void dispose() {
@@ -23,15 +23,27 @@ class _FeedbackPageState extends State<FeedbackPage> {
   }
 
   Future<void> _pickFile() async {
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf', 'doc', 'docx'],
+    final typeGroup = XTypeGroup(
+      label: 'Documents and Images',
+      extensions: ['jpg', 'jpeg', 'png', 'pdf', 'doc', 'docx'],
     );
 
-    if (result != null) {
-      setState(() {
-        _selectedFile = result.files.single.name;
-      });
+    try {
+      final file = await openFile(
+        acceptedTypeGroups: [typeGroup],
+      );
+
+      if (file != null) {
+        setState(() {
+          _selectedFile = file;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error picking file: $e')),
+        );
+      }
     }
   }
 
@@ -79,7 +91,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
             OutlinedButton.icon(
               onPressed: _pickFile,
               icon: const Icon(Icons.attach_file),
-              label: Text(_selectedFile ?? 'Attach File'),
+              label: Text(_selectedFile?.name ?? 'Attach File'),
             ),
             if (_selectedFile != null) ...[
               const SizedBox(height: 8),
@@ -87,7 +99,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                 children: [
                   Expanded(
                     child: Text(
-                      _selectedFile!,
+                      _selectedFile!.name,
                       style: AppTheme.bodyText2,
                       overflow: TextOverflow.ellipsis,
                     ),

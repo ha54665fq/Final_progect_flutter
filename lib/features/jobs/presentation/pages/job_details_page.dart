@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:testprogect/core/theme/app_theme.dart';
 import 'package:testprogect/features/jobs/data/models/job_model.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:testprogect/features/jobs/presentation/pages/job_application_page.dart';
 
 class JobDetailsPage extends StatelessWidget {
   final JobModel job;
@@ -61,7 +62,12 @@ class JobDetailsPage extends StatelessWidget {
         ),
         child: ElevatedButton(
           onPressed: () {
-            // TODO: Navigate to apply page
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => JobApplicationPage(job: job),
+              ),
+            );
           },
           child: const Text('Apply'),
         ),
