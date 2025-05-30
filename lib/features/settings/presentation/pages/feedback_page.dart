@@ -23,7 +23,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
   }
 
   Future<void> _pickFile() async {
-    final typeGroup = XTypeGroup(
+    const typeGroup = XTypeGroup(
       label: 'Documents and Images',
       extensions: ['jpg', 'jpeg', 'png', 'pdf', 'doc', 'docx'],
     );
@@ -135,4 +135,4 @@ class _FeedbackPageState extends State<FeedbackPage> {
       ),
     );
   }
-} 
+}

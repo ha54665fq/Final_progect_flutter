@@ -1,7 +1,6 @@
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:testprogect/core/localization/app_localizations.dart';
 import 'package:testprogect/features/jobs/domain/models/job.dart';
 import 'package:testprogect/features/jobs/presentation/providers/jobs_provider.dart';
 
@@ -22,7 +21,7 @@ class _JobApplicationPageState extends State<JobApplicationPage> {
   bool _isSubmitting = false;
 
   Future<void> _pickVideo() async {
-    final typeGroup = XTypeGroup(
+    const typeGroup = XTypeGroup(
       label: 'Videos',
       extensions: ['mp4', 'mov', 'avi'],
       mimeTypes: ['video/mp4', 'video/quicktime', 'video/x-msvideo'],
@@ -61,9 +60,9 @@ class _JobApplicationPageState extends State<JobApplicationPage> {
 
     try {
       await context.read<JobsProvider>().applyForJob(
-        widget.job.id,
-        _selectedVideo!.path,
-      );
+            widget.job.id,
+            _selectedVideo!.path,
+          );
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -88,8 +87,6 @@ class _JobApplicationPageState extends State<JobApplicationPage> {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context);
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Apply for ${widget.job.title}'),
@@ -171,4 +168,4 @@ class _JobApplicationPageState extends State<JobApplicationPage> {
       ),
     );
   }
-} 
+}

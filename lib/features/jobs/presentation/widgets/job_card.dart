@@ -28,14 +28,17 @@ class JobCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const Icon(Icons.access_time, size: 16, color: AppTheme.textSecondary),
+                  const Icon(Icons.access_time,
+                      size: 16, color: AppTheme.textSecondary),
                   const SizedBox(width: 4),
-                  Text('30 min', style: AppTheme.bodyText2),
+                  const Text('30 min', style: AppTheme.bodyText2),
                   const Spacer(),
                   IconButton(
                     icon: Icon(
                       job.isFavorite ? Icons.bookmark : Icons.bookmark_outline,
-                      color: job.isFavorite ? AppTheme.primary : AppTheme.textSecondary,
+                      color: job.isFavorite
+                          ? AppTheme.primary
+                          : AppTheme.textSecondary,
                     ),
                     onPressed: onBookmarkTap,
                   ),
@@ -49,7 +52,8 @@ class JobCard extends StatelessWidget {
                   const CircleAvatar(
                     radius: 12,
                     backgroundColor: AppTheme.cardBackground,
-                    child: Icon(Icons.business, size: 16, color: AppTheme.textSecondary),
+                    child: Icon(Icons.business,
+                        size: 16, color: AppTheme.textSecondary),
                   ),
                   const SizedBox(width: 8),
                   Text(job.company, style: AppTheme.bodyText2),
@@ -59,26 +63,30 @@ class JobCard extends StatelessWidget {
               Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       color: AppTheme.primary.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: Text(
                       'Engineering',
-                      style: AppTheme.bodyText2.copyWith(color: AppTheme.primary),
+                      style:
+                          AppTheme.bodyText2.copyWith(color: AppTheme.primary),
                     ),
                   ),
                   const SizedBox(width: 8),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       color: AppTheme.primary.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: Text(
                       job.location,
-                      style: AppTheme.bodyText2.copyWith(color: AppTheme.primary),
+                      style:
+                          AppTheme.bodyText2.copyWith(color: AppTheme.primary),
                     ),
                   ),
                 ],
@@ -86,11 +94,13 @@ class JobCard extends StatelessWidget {
               const SizedBox(height: 12),
               Row(
                 children: [
-                  const Icon(Icons.calendar_today, size: 16, color: AppTheme.textSecondary),
+                  const Icon(Icons.calendar_today,
+                      size: 16, color: AppTheme.textSecondary),
                   const SizedBox(width: 4),
-                  Text('3 days ago', style: AppTheme.bodyText2),
+                  const Text('3 days ago', style: AppTheme.bodyText2),
                   const SizedBox(width: 16),
-                  const Icon(Icons.attach_money, size: 16, color: AppTheme.textSecondary),
+                  const Icon(Icons.attach_money,
+                      size: 16, color: AppTheme.textSecondary),
                   const SizedBox(width: 4),
                   Text(job.salary, style: AppTheme.bodyText2),
                 ],
@@ -101,4 +111,4 @@ class JobCard extends StatelessWidget {
       ),
     );
   }
-} 
+}
